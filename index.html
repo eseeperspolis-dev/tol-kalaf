@@ -3,98 +3,138 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f4e78">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1d5fd1">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>محاسبه‌گر کلاف ورق فولادی</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="کویل فولادی">
+<title>محاسبه‌گر کویل فولادی</title>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mut:#6b7280;--bd:#d5d9df;--ac:#1d5fd1;--calc:#e7f6ec;--calcb:#2e9e5b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--card:#1d2127;--tx:#e8eaed;--mut:#9aa3ae;--bd:#3a4048;--ac:#6ea1ff;--calc:#17301f;--calcb:#4cc17e}}
-:root[data-theme="dark"]{--bg:#14171b;--card:#1d2127;--tx:#e8eaed;--mut:#9aa3ae;--bd:#3a4048;--ac:#6ea1ff;--calc:#17301f;--calcb:#4cc17e}
+--bg:#f4f6f8;--card:#fff;--text:#1b2733;--muted:#6b7a88;--line:#d5dce3;--accent:#1f4e78;--calc:#e3f4e6;--calcline:#2e8b57;--btn:#1f4e78;--btntext:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171e;--card:#1a242d;--text:#e8eef3;--muted:#92a3b2;--line:#33424f;--accent:#7fb3e0;--calc:#17361f;--calcline:#4cc27f;--btn:#3b7bb3;--btntext:#fff}}
+:root[data-theme="dark"]{--bg:#10171e;--card:#1a242d;--text:#e8eef3;--muted:#92a3b2;--line:#33424f;--accent:#7fb3e0;--calc:#17361f;--calcline:#4cc27f;--btn:#3b7bb3;--btntext:#fff}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:Tahoma,"Vazirmatn",system-ui,sans-serif;padding:16px;max-width:520px;margin-inline:auto}
-h1{font-size:19px;margin:6px 0 4px}
-p.s{color:var(--mut);font-size:13px;margin:0 0 14px;line-height:1.7}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
-.f{display:flex;flex-direction:column;margin-bottom:12px}
-.f:last-child{margin-bottom:0}
-label{font-size:13px;color:var(--mut);margin-bottom:5px}
-.row{display:flex;gap:8px;align-items:center}
-input{flex:1;min-width:0;font:inherit;font-size:17px;padding:11px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);direction:ltr;text-align:left}
-input:focus{outline:none;border-color:var(--ac)}
-input.c{background:var(--calc);border-color:var(--calcb);font-weight:bold}
-.u{width:42px;font-size:13px;color:var(--mut);text-align:left;direction:ltr}
-button{font:inherit;width:100%;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:15px}
-#msg{min-height:20px;font-size:13px;color:#d33;margin:0 2px 10px}
-.h{font-size:12px;color:var(--mut);line-height:1.8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Vazirmatn,Arial,sans-serif;padding:16px;max-width:520px;margin-inline:auto}
+h1{font-size:19px;margin:6px 0 4px;color:var(--accent)}
+p.sub{margin:0 0 16px;font-size:13px;color:var(--muted);line-height:1.7}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.row{display:flex;align-items:center;gap:8px}
+input{width:100%;font-size:22px;padding:12px;border:2px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);text-align:center;direction:ltr;font-family:Arial,sans-serif}
+input:focus{outline:none;border-color:var(--accent)}
+input.calc{background:var(--calc);border-color:var(--calcline)}
+.unit{min-width:46px;font-size:13px;color:var(--muted);direction:ltr}
+.tag{font-size:11px;color:var(--calcline);height:14px;margin-top:4px}
+#status{font-size:13px;color:var(--muted);text-align:center;min-height:20px;margin:4px 0 12px}
+button{width:100%;padding:13px;font-size:16px;border:0;border-radius:10px;background:var(--btn);color:var(--btntext);font-family:inherit}
+.dens input{font-size:17px;padding:8px}
+.note{font-size:12px;color:var(--muted);line-height:1.8;margin-top:12px}
 </style>
 </head>
 <body>
-<h1>محاسبه‌گر کلاف ورق فولادی</h1>
-<p class="s">هر پارامتری را که می‌دانید وارد کنید؛ مقادیر محاسبه‌شده به‌صورت خودکار و با رنگ سبز نمایش داده می‌شوند.</p>
+<h1>محاسبه‌گر کویل فولادی</h1>
+<p class="sub">چهار مقدار را وارد کنید؛ بقیه (قطر داخلی، قطر خارجی، عرض، ضخامت، وزن یا طول ورق) خودکار محاسبه می‌شود. هر کدام را می‌توانید تغییر دهید، آن‌وقت قدیمی‌ترین ورودی به‌عنوان مجهول محاسبه می‌شود.</p>
+
 <div class="card" id="fields"></div>
-<div id="msg"></div>
-<button id="clr">پاک کردن همه</button>
-<div class="card h" style="margin-top:12px">
-طول (متر) = π × (OD² − ID²) ÷ (۴ × ضخامت × ۱۰۰۰)<br>
-وزن (کیلوگرم) = طول × عرض × ضخامت × چگالی ÷ ۱۰۰۰<br>
-برای محاسبهٔ طول/قطر/ضخامت، سه مورد از چهار پارامتر (ID، OD، ضخامت، طول) کافی است. عرض فقط در وزن اثر دارد. چگالی پیش‌فرض ۷٫۸۵ g/cm³ است.
+
+<div id="status">چهار مقدار را وارد کنید</div>
+<div id="unitw" style="font-size:14px;color:var(--accent);text-align:center;min-height:20px;margin-bottom:8px"></div>
+<button id="clear" type="button">پاک کردن همه</button>
+
+<div class="card dens" style="margin-top:12px">
+  <label for="rho">چگالی فولاد (kg/mm³)</label>
+  <input id="rho" inputmode="decimal" value="0.00000785">
 </div>
+<div class="note">وزن (kg) = چگالی × π/4 × (قطر خارجی² − قطر داخلی²) × عرض (mm)<br>طول ورق (m) = π/4 × (قطر خارجی² − قطر داخلی²) ÷ ضخامت ÷ ۱۰۰۰<br>ضخامت در وزن اثری ندارد و فقط از طریق طول وارد محاسبه می‌شود. کویل بدون فاصله‌ی بین لایه‌ها فرض شده.<br>برای نصب روی گوشی: در منوی مرورگر «Add to Home Screen» را بزنید.</div>
+
 <script>
-var F=[["id","قطر داخلی (ID)","mm"],["od","قطر خارجی (OD)","mm"],["w","عرض","mm"],["t","ضخامت","mm"],["l","طول","m"],["m","وزن","kg"],["rho","چگالی","g/cm³"]];
-var box=document.getElementById("fields"),el={},user={};
+var F=[
+ {k:'ID',n:'قطر داخلی',u:'mm'},
+ {k:'OD',n:'قطر خارجی',u:'mm'},
+ {k:'w',n:'عرض',u:'mm'},
+ {k:'t',n:'ضخامت',u:'mm'},
+ {k:'W',n:'وزن',u:'kg'},
+ {k:'L',n:'طول ورق',u:'m'}
+];
+var NEED=4;
+var order=[];
+var el={};
+var box=document.getElementById('fields');
 F.forEach(function(f){
-  var d=document.createElement("div");d.className="f";
-  d.innerHTML='<label>'+f[1]+'</label><div class="row"><input id="'+f[0]+'" inputmode="decimal" autocomplete="off"><span class="u">'+f[2]+'</span></div>';
-  box.appendChild(d);el[f[0]]=d.querySelector("input");
-  el[f[0]].addEventListener("input",function(){user[f[0]]=el[f[0]].value.trim()!=="";run();});
+  var d=document.createElement('div');d.style.marginBottom='12px';
+  d.innerHTML='<label for="i_'+f.k+'">'+f.n+'</label><div class="row"><input id="i_'+f.k+'" inputmode="decimal" autocomplete="off"><span class="unit">'+f.u+'</span></div><div class="tag" id="g_'+f.k+'"></div>';
+  box.appendChild(d);
+  el[f.k]=d.querySelector('input');
+  el[f.k].addEventListener('input',function(){onType(f.k)});
 });
-el.rho.value="7.85";user.rho=true;
+var rho=document.getElementById('rho');
+try{var s=localStorage.getItem('rho3');if(s)rho.value=s}catch(e){}
+rho.addEventListener('input',function(){try{localStorage.setItem('rho3',rho.value)}catch(e){}recalc()});
 function num(s){
-  s=String(s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632}).replace(/[٫,،]/g,".");
-  var n=parseFloat(s);return isFinite(n)?n:NaN;
+  s=String(s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776})
+             .replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})
+             .replace(/[٫,،]/g,'.').trim();
+  var v=parseFloat(s);return isFinite(v)?v:NaN;
 }
-function fmt(x){return String(Math.round(x*1000)/1000);}
-function run(){
-  var v={},msg="",k;
-  for(k in el){
-    if(user[k]){var n=num(el[k].value);if(isNaN(n)||n<=0){v[k]=NaN;}else v[k]=n;}
-    else{el[k].value="";el[k].classList.remove("c");}
-  }
-  for(k in v){if(isNaN(v[k])){document.getElementById("msg").textContent="مقدار «"+k.toUpperCase()+"» باید عددی مثبت باشد.";return;}}
-  var K=4000/Math.PI,ch=true,it=0;
-  function set(n,x){if(!isFinite(x)||x<=0){msg="مقادیر ناسازگارند (مثلاً OD باید بزرگ‌تر از ID باشد).";return;}v[n]=x;el[n].value=fmt(x);el[n].classList.add("c");ch=true;}
+function fmt(x){return String(Number(x.toPrecision(6)))}
+function has(v,k){return v[k]!==undefined}
+function solve(v,r){
   var P=Math.PI;
-  while(ch&&it++<6&&!msg){
-    ch=false;
-    var u=["id","od","t","l"].filter(function(n){return v[n]===undefined});
-    if(u.length===1){
-      var n=u[0];
-      if(n==="l")set("l",P*(v.od*v.od-v.id*v.id)/(4000*v.t));
-      else if(n==="t")set("t",P*(v.od*v.od-v.id*v.id)/(4000*v.l));
-      else if(n==="od")set("od",Math.sqrt(v.id*v.id+K*v.l*v.t));
-      else set("id",Math.sqrt(v.od*v.od-K*v.l*v.t));
-    }
-    if(msg)break;
-    var u2=["m","l","w","t"].filter(function(n){return v[n]===undefined});
-    if(u2.length===1&&v.rho){
-      var q=u2[0];
-      if(q==="m")set("m",v.l*v.w*v.t*v.rho/1000);
-      else if(q==="l")set("l",1000*v.m/(v.w*v.t*v.rho));
-      else if(q==="w")set("w",1000*v.m/(v.l*v.t*v.rho));
-      else set("t",1000*v.m/(v.l*v.w*v.rho));
-    }
+  for(var i=0;i<5;i++){
+    var S;
+    if(has(v,'OD')&&has(v,'ID'))S=v.OD*v.OD-v.ID*v.ID;
+    else if(has(v,'W')&&has(v,'w'))S=4*v.W/(P*r*v.w);
+    else if(has(v,'L')&&has(v,'t'))S=4000*v.L*v.t/P;
+    if(S===undefined)continue;
+    if(!(S>0)){v.bad=1;return v}
+    if(has(v,'OD')&&!has(v,'ID')){var q=v.OD*v.OD-S;if(!(q>0)){v.bad=1;return v}v.ID=Math.sqrt(q)}
+    else if(has(v,'ID')&&!has(v,'OD'))v.OD=Math.sqrt(v.ID*v.ID+S);
+    if(!has(v,'W')&&has(v,'w'))v.W=r*P/4*S*v.w;
+    if(!has(v,'w')&&has(v,'W'))v.w=4*v.W/(P*r*S);
+    if(!has(v,'L')&&has(v,'t'))v.L=P*S/(4000*v.t);
+    if(!has(v,'t')&&has(v,'L'))v.t=P*S/(4000*v.L);
   }
-  if(!msg&&v.id&&v.od&&v.od<=v.id)msg="قطر خارجی باید بزرگ‌تر از قطر داخلی باشد.";
-  document.getElementById("msg").textContent=msg;
+  return v;
 }
-document.getElementById("clr").onclick=function(){
-  for(var k in el){el[k].value="";el[k].classList.remove("c");user[k]=false;}
-  el.rho.value="7.85";user.rho=true;document.getElementById("msg").textContent="";
-};
-if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+function mark(k,on){
+  el[k].classList.toggle('calc',on);el[k]._calc=on;
+  document.getElementById('g_'+k).textContent=on?'محاسبه‌شده':'';
+}
+function onType(k){
+  var v=num(el[k].value);
+  order=order.filter(function(x){return x!==k});
+  mark(k,false);
+  if(!isNaN(v)&&v>0) order.push(k);
+  if(order.length>NEED){order.shift()}
+  recalc();
+}
+function recalc(){
+  var r=num(rho.value);
+  var st=document.getElementById('status'), uw=document.getElementById('unitw');
+  uw.textContent='';
+  F.forEach(function(f){if(order.indexOf(f.k)<0){if(el[f.k]._calc)el[f.k].value='';mark(f.k,false)}});
+  if(!(r>0)){st.textContent='چگالی نامعتبر است';return}
+  if(order.length<NEED){st.textContent='چهار مقدار را وارد کنید';return}
+  var v={};order.forEach(function(k){v[k]=num(el[k].value)});
+  solve(v,r);
+  if(v.bad){st.textContent='قطر خارجی باید بزرگ‌تر از قطر داخلی باشد و مقادیر باید با هم سازگار باشند';return}
+  F.forEach(function(f){if(order.indexOf(f.k)<0&&has(v,f.k)){el[f.k].value=fmt(v[f.k]);mark(f.k,true)}});
+  var miss=F.filter(function(f){return !has(v,f.k)});
+  if(miss.length){st.textContent='با این چهار مقدار همه محاسبه نمی‌شود؛ از جفت وزن و عرض یا جفت ضخامت و طول، یکی را هم وارد کنید';return}
+  st.textContent='';
+  uw.textContent='تعداد دور تقریبی: '+fmt((v.OD-v.ID)/(2*v.t));
+}
+document.getElementById('clear').addEventListener('click',function(){
+  order=[];F.forEach(function(f){el[f.k].value='';mark(f.k,false)});
+  document.getElementById('status').textContent='چهار مقدار را وارد کنید';
+  document.getElementById('unitw').textContent='';
+});
+
+if('serviceWorker' in navigator){window.addEventListener('load',function(){try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}})}
 </script>
 </body>
 </html>
